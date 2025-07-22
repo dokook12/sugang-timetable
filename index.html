@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>종합 강의 시간표</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f6f8fa;
+    }
+  
+    header {
+      background-color: #3b9f3a;
+      color: white;
+      padding: 14px 30px;
+      font-size: 20px;
+      font-weight: bold;
+    }
+  
+    .container {
+      padding: 20px 30px;
+    }
+  
+    .filters {
+      background: white;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      align-items: center;
+    }
+  
+    .filters label {
+      font-size: 14px;
+      font-weight: 500;
+    }
+  
+    .filters select {
+      padding: 5px 10px;
+      font-size: 14px;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+  
+    .filters button {
+      background-color: #3b9f3a;
+      color: white;
+      border: none;
+      padding: 6px 16px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+  
+    .filters button:hover {
+      background-color: #318431;
+    }
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+  
+    th, td {
+      border: 1px solid #ddd;
+      padding: 8px 10px;
+      font-size: 13px;
+      text-align: center;
+    }
+  
+    th {
+      background-color: #f1f1f1;
+      font-weight: 600;
+    }
+  
+    tbody tr:hover {
+      background: #f9f9f9;
+    }
+  </style>
+  
+</head>
+<body>
+  <header> 종합 강의 시간표</header>
+
+  <div class="container">
+    <div class="filters">
+      <label>개설학과:
+        <select id="filter-department">
+          <option value="">전체</option>
+        </select>
+      </label>
+
+      <label>학년:
+        <select id="filter-grade">
+          <option value="">전체</option>
+        </select>
+      </label>
+
+      <label>이수구분:
+        <select id="filter-requirement">
+          <option value="">전체</option>
+        </select>
+      </label>
+
+      <label>강의구분:
+        <select id="filter-lecture-type">
+          <option value="">전체</option>
+        </select>
+      </label>
+
+      <button id="filter-button">조회</button>
+    </div>
+
+    <table id="course-table">
+      <thead>
+        <tr id="table-header"></tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+</body>
+
+
+  <script>
+    let data = [];
+
+    fetch('data.json')
+      .then(res => res.json())
+      .then(json => {
+        data = json;
+        initFilters();
+        updateTable();
+      });
+
+    function initFilters() {
+      const deptSet = new Set();
+      const gradeSet = new Set();
+      const reqSet = new Set();
+      const typeSet = new Set();
+
+      data.forEach(row => {
+        deptSet.add(row["개설학과"]);
+        gradeSet.add(row["학년"]);
+        reqSet.add(row["이수구분"]);
+        typeSet.add(row["강의구분"]);
+      });
+
+      populateSelect("filter-department", deptSet);
+      populateSelect("filter-grade", gradeSet);
+      populateSelect("filter-requirement", reqSet);
+      populateSelect("filter-lecture-type", typeSet);
+
+      document.getElementById("filter-button").addEventListener("click", updateTable);
+
+    }
+
+    function populateSelect(id, set) {
+      const select = document.getElementById(id);
+      Array.from(set).sort().forEach(value => {
+        const opt = document.createElement("option");
+        opt.value = value;
+        opt.textContent = value;
+        select.appendChild(opt);
+      });
+    }
+
+    function updateTable() {
+      const dept = document.getElementById("filter-department").value;
+      const grade = document.getElementById("filter-grade").value;
+      const req = document.getElementById("filter-requirement").value;
+      const type = document.getElementById("filter-lecture-type").value;
+
+      const filtered = data.filter(row => 
+        (!dept || row["개설학과"] === dept) &&
+        (!grade || row["학년"] === grade) &&
+        (!req || row["이수구분"] === req) &&
+        (!type || row["강의구분"] === type)
+      );
+
+      const headers = Object.keys(data[0]);
+      const headerRow = document.getElementById("table-header");
+      headerRow.innerHTML = "";
+      headers.forEach(h => {
+        const th = document.createElement("th");
+        th.textContent = h;
+        headerRow.appendChild(th);
+      });
+
+      const body = document.getElementById("table-body");
+      body.innerHTML = "";
+      filtered.forEach(row => {
+        const tr = document.createElement("tr");
+        headers.forEach(h => {
+          const td = document.createElement("td");
+          td.textContent = row[h] || "";
+          tr.appendChild(td);
+        });
+        body.appendChild(tr);
+      });
+    }
+  </script>
+</body>
+</html>
