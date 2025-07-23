@@ -191,7 +191,9 @@
     }
 
     function updateTable() {
-      const headers = Object.keys(data[0] || {});
+const headers = Object.keys(data[0] || {}).filter(h =>
+  !["수강인원", "이수인원", "성적부여"].includes(h)
+);
       const headerRow = document.getElementById("table-header");
       headerRow.innerHTML = "";
       headers.forEach(h => {
@@ -207,6 +209,15 @@
         headers.forEach(h => {
           const td = document.createElement("td");
           td.textContent = row[h] || "";
+          
+          if (h === "강의명") {
+  const removeTags = ["인문사회", "기술융합", "창업경영"];
+  const match = td.textContent.match(/^\((.*?)\)\s*/);
+  if (match && removeTags.includes(match[1])) {
+    td.textContent = td.textContent.replace(/^\(.*?\)\s*/, "");
+  }
+}
+
           tr.appendChild(td);
         });
         
