@@ -73,6 +73,9 @@
       border: 1px solid #ccc;
       padding: 6px 10px;
     }
+    tr.highlight {
+  background-color: #e0ecff;
+}
     thead th {
       background-color: #e5e5e5;
       border-top: 2px solid #1e3966;
@@ -206,6 +209,11 @@
           td.textContent = row[h] || "";
           tr.appendChild(td);
         });
+        
+        tr.addEventListener("click", () => {
+  document.querySelectorAll("tbody tr").forEach(row => row.classList.remove("highlight"));
+  tr.classList.add("highlight");
+});
         body.appendChild(tr);
       });
 
