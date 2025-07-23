@@ -28,6 +28,15 @@
       border-radius: 4px;
       color: #000;
     }
+    
+    input[type="text"] {
+  padding: 5px;
+  border: 1px solid #ccc;
+  background-color: #f5f5f5;
+  border-radius: 4px;
+  color: #000;
+}
+
     button {
       cursor: pointer;
     }
@@ -162,13 +171,15 @@
       const grade = document.getElementById("filter-grade").value;
       const req = document.getElementById("filter-requirement").value;
       const type = document.getElementById("filter-lecture-type").value;
+      const title = document.getElementById("filter-title").value.toLowerCase();
 
       filteredData = data.filter(row =>
-        (!dept || row["개설학과"] === dept) &&
-        (!grade || row["학년"] === grade) &&
-        (!req || row["이수구분"] === req) &&
-        (!type || row["강의구분"] === type)
-      );
+  (!dept || row["개설학과"] === dept) &&
+  (!grade || row["학년"] === grade) &&
+  (!req || row["이수구분"] === req) &&
+  (!type || row["강의구분"] === type) &&
+  (!title || (row["강의명"] && row["강의명"].toLowerCase().includes(title)))
+);
     }
 
     function updateTable() {
