@@ -186,7 +186,7 @@
   (!grade || row["학년"] === grade) &&
   (!req || row["이수구분"] === req) &&
   (!type || row["강의구분"] === type) &&
-  (!title || (row["강의명"] && row["강의명"].toLowerCase().includes(title)))
+  (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
 );
     }
 
@@ -210,7 +210,7 @@ const headers = Object.keys(data[0] || {}).filter(h =>
           const td = document.createElement("td");
           td.textContent = row[h] || "";
           
-          if (h === "강의명") {
+          if (h === "개설과목") {
   const removeTags = ["인문사회", "기술융합", "창업경영"];
   const match = td.textContent.match(/^\((.*?)\)\s*/);
   if (match && removeTags.includes(match[1])) {
