@@ -191,9 +191,12 @@
     }
 
     function updateTable() {
-const headers = Object.keys(data[0] || {}).filter(h =>
-  !["수강인원", "이수인원", "성적부여"].includes(h)
-);
+const desiredHeaders = [
+  "과정", "과목코드", "주야", "개설학과", "학년", "개설과목", "분반", "이수구분",
+  "학점", "시수", "강의시간", "강의실", "담당교수", "강의구분", "제한인원", "성적평가"
+];
+
+const headers = desiredHeaders.filter(h => h in data[0]);
       const headerRow = document.getElementById("table-header");
       headerRow.innerHTML = "";
       headers.forEach(h => {
