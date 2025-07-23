@@ -230,19 +230,29 @@ if (h === "강의실") {
     td.textContent = "융" + original.match(/\d+/)[0];
   }
 
-  // "창의교육관(305)" → "창305" ← 혹시 이런 형식도 있다면
-  else if (/^창의교육관\((\d+)\)$/.test(original)) {
-    td.textContent = "창" + original.match(/\d+/)[0];
+    // "농산물가공·식품 실습교육동(가공101)" → "가공101"
+  else if (/^농산물가공·식품 실습교육동\((가공\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((가공\d+)\)/)[1];
   }
 
-  // "융복합실습동(107)" → "융실107"
-  else if (/^융복합실습동\((\d+)\)$/.test(original)) {
-    td.textContent = "융실" + original.match(/\d+/)[0];
+  // "첨단기술교육실습교육동(첨단실습동105)" → "첨단실습동105"
+  else if (/^첨단기술교육실습교육동\((첨단실습동\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((첨단실습관\d+)\)/)[1];
   }
 
-  // "첨단기술교육관(208)" → "첨208"
-  else if (/^첨단기술교육관\((\d+)\)$/.test(original)) {
-    td.textContent = "첨" + original.match(/\d+/)[0];
+  // "첨단기술교육관(첨단교육관102)" → "첨단교육관102"
+  else if (/^첨단기술교육관\((첨단교육관\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((첨단교육관\d+)\)/)[1];
+  }
+
+  // "융복합 실습교육동(융실201)" → "융실201"
+  else if (/^융복합 실습교육동\((융실\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((융실\d+)\)/)[1];
+  }
+
+  // "기후변화대응실습교육센터(기후변화센터관 강의실)" → "기후변화센터관 강의실"
+  else if (/^기후변화대응실습교육센터\(기후변화센터 강의실\)$/.test(original)) {
+    td.textContent = "기후변화센터관 강의실";
   }
 }
 
