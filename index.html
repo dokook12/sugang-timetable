@@ -204,6 +204,10 @@
 );
     }
 function processCourseRow(row) {
+  const 강의실원본 = row["강의실"] || "";
+  const 강의실정제 = 강의실원본.length >= 15 ? "" : 강의실원본;
+  const 비고값 = 강의실원본.length >= 15 ? 강의실원본 : "";
+
   return {
     과정: row["과정"],
     과목코드: row["과목코드"],
@@ -214,19 +218,21 @@ function processCourseRow(row) {
     학년: row["학년"],
     개설학과: row["개설학과"],
     강의시간: row["강의시간"],
-    강의실: row["강의실"],
+    강의실: 강의실정제,
     담당교수: row["담당교수"],
     강의구분: row["강의구분"],
     제한인원: parseInt(row["제한인원"]),
-    성적평가: row["성적평가"]
+    성적평가: row["성적평가"],
+    비고: 비고값
   };
 }
+
     function updateTable() {
 const desiredHeaders = [
   "과정", "과목코드", "이수구분", "개설과목",
   "학점", "시수", "학년", "개설학과",
   "강의시간", "강의실", "담당교수",
-  "강의구분", "제한인원", "성적평가"
+  "강의구분", "제한인원", "성적평가", "비고"  // ← 요기
 ];
 
 const headers = desiredHeaders.filter(h => h in data[0]);
