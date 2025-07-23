@@ -220,22 +220,27 @@ const headers = Object.keys(data[0] || {}).filter(h =>
 if (h === "강의실") {
   const original = td.textContent;
 
-  // 융합교육관(422) → 융422
-  if (/^융합교육관\((\d+)\)$/.test(original)) {
+  // "창의교육관(창206)" → "창206"
+  if (/^창의교육관\((창\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((창\d+)\)/)[1];
+  }
+
+  // "융합교육관(403)" → "융403"
+  else if (/^융합교육관\((\d+)\)$/.test(original)) {
     td.textContent = "융" + original.match(/\d+/)[0];
   }
 
-  // 창의교육관(305) → 창305
+  // "창의교육관(305)" → "창305" ← 혹시 이런 형식도 있다면
   else if (/^창의교육관\((\d+)\)$/.test(original)) {
     td.textContent = "창" + original.match(/\d+/)[0];
   }
 
-  // 융복합실습동(107) → 융실107
+  // "융복합실습동(107)" → "융실107"
   else if (/^융복합실습동\((\d+)\)$/.test(original)) {
     td.textContent = "융실" + original.match(/\d+/)[0];
   }
 
-  // 첨단기술교육관(208) → 첨208
+  // "첨단기술교육관(208)" → "첨208"
   else if (/^첨단기술교육관\((\d+)\)$/.test(original)) {
     td.textContent = "첨" + original.match(/\d+/)[0];
   }
