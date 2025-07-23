@@ -219,6 +219,16 @@ const headers = desiredHeaders.filter(h => h in data[0]);
   if (match && removeTags.includes(match[1])) {
     td.textContent = td.textContent.replace(/^\(.*?\)\s*/, "");
   }
+  
+}if (h === "이수구분") {
+  const convert = {
+    "교양선택": "교선",
+    "교양필수": "교필",
+    "학부필수": "학필",
+    "전공선택": "전선",
+    "전공필수": "전필"
+  };
+  td.textContent = convert[td.textContent] || td.textContent;
 }
 if (h === "강의실") {
   const original = td.textContent;
