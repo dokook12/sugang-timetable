@@ -2,56 +2,71 @@
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
-  <title> 종합 강의 시간표</title>
+  <title>종합 강의 시간표</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 20px;
-      color: #1e3966;
+      color: #000;
+      background-color: #fff;
     }
     h2 {
-      color: #1e3966;
+      background-color: #1e3966;
+      color: white;
+      padding: 10px 15px;
+      border-radius: 4px;
+      font-size: 20px;
     }
     label, select, button {
-      margin-right: 10px;
       font-size: 14px;
+      margin-right: 10px;
     }
     select, button {
       padding: 5px;
-      border: 1px solid #1e3966;
+      border: 1px solid #ccc;
+      background-color: #f5f5f5;
       border-radius: 4px;
-      color: #1e3966;
-      background-color: #fff;
+      color: #000;
     }
     button {
       cursor: pointer;
-    }
-    table {
-      border-collapse: collapse;
-      width: 100%;
-      margin-top: 20px;
-      font-size: 13px;
-    }
-    th, td {
-      border: 1px solid #ccc;
-      padding: 6px 10px;
-    }
-    th {
-      background-color: #1e3966;
-      color: #fff;
-    }
-    .top-controls {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
     }
     .filters {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
-    }
-    .length-selector {
+      padding: 10px;
+      border: 1px solid #ccc;
+      background-color: #f5f5f5;
+      border-radius: 6px;
       margin-top: 10px;
+    }
+    .table-wrapper {
+      border: 1px solid #ccc;
+      padding: 15px;
+      margin-top: 20px;
+      background-color: #fff;
+    }
+    .init-message {
+      font-size: 16px;
+      text-align: center;
+      color: #777;
+      padding: 50px 0;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      margin-top: 10px;
+      font-size: 13px;
+      color: #000;
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 6px 10px;
+    }
+    thead th {
+      background-color: #e5e5e5;
+      border-top: 2px solid #1e3966;
     }
   </style>
 </head>
@@ -59,61 +74,46 @@
 
   <h2>종합 강의 시간표</h2>
 
-<div style="background-color: #1e3966; padding: 15px 20px; color: white; font-size: 20px; font-weight: bold; position: sticky; top: 0; z-index: 1000;">
-  강의 목록
-</div>
-
-<table id="course-table" style="width: 100%; border-collapse: collapse; color: #000;">
-
-</table>
-  <div class="top-controls">
-    <div class="filters">
-      <label>개설학과:
-        <select id="filter-department">
-          <option value="">전체</option>
-        </select>
-      </label>
-      <label>학년:
-        <select id="filter-grade">
-          <option value="">전체</option>
-        </select>
-      </label>
-      <label>이수구분:
-        <select id="filter-requirement">
-          <option value="">전체</option>
-        </select>
-      </label>
-      <label>강의구분:
-        <select id="filter-lecture-type">
-          <option value="">전체</option>
-        </select>
-      </label>
-      <button id="filter-button">조회</button>
-    </div>
-
-    <div class="length-selector">
-      <label>표시 강의 수:
-        <select id="length-selector">
-          <option value="15">15개</option>
-          <option value="30">30개</option>
-          <option value="50">50개</option>
-          <option value="100">100개</option>
-        </select>
-      </label>
-    </div>
+  <div class="filters">
+    <label>개설학과:
+      <select id="filter-department">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>학년:
+      <select id="filter-grade">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>이수구분:
+      <select id="filter-requirement">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>강의구분:
+      <select id="filter-lecture-type">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <button id="filter-button">조회</button>
   </div>
 
-  <table id="course-table">
-    <thead>
-      <tr id="table-header"></tr>
-    </thead>
-    <tbody id="table-body"></tbody>
-  </table>
+  <div class="table-wrapper" id="table-container">
+    <div class="init-message" id="init-message">
+      검색 조건 선택 후 조회 버튼을 클릭하세요.
+    </div>
+
+    <table id="course-table" style="display: none;">
+      <thead>
+        <tr id="table-header"></tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
 
   <script>
     let data = [];
     let filteredData = [];
-    let displayLimit = 15;
 
     fetch('data.json')
       .then(res => res.json())
@@ -121,7 +121,6 @@
         data = json;
         filteredData = data;
         initFilters();
-        updateTable();
       });
 
     function initFilters() {
@@ -146,11 +145,6 @@
         applyFilters();
         updateTable();
       });
-
-      document.getElementById("length-selector").addEventListener("change", () => {
-        displayLimit = parseInt(document.getElementById("length-selector").value);
-        updateTable();
-      });
     }
 
     function populateSelect(id, set) {
@@ -169,7 +163,7 @@
       const req = document.getElementById("filter-requirement").value;
       const type = document.getElementById("filter-lecture-type").value;
 
-      filteredData = data.filter(row => 
+      filteredData = data.filter(row =>
         (!dept || row["개설학과"] === dept) &&
         (!grade || row["학년"] === grade) &&
         (!req || row["이수구분"] === req) &&
@@ -189,8 +183,7 @@
 
       const body = document.getElementById("table-body");
       body.innerHTML = "";
-      const limited = filteredData.slice(0, displayLimit);
-      limited.forEach(row => {
+      filteredData.forEach(row => {
         const tr = document.createElement("tr");
         headers.forEach(h => {
           const td = document.createElement("td");
@@ -199,6 +192,10 @@
         });
         body.appendChild(tr);
       });
+
+      // 안내문 숨기고 테이블 보이기
+      document.getElementById("init-message").style.display = "none";
+      document.getElementById("course-table").style.display = "table";
     }
   </script>
 </body>
