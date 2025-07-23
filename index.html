@@ -230,6 +230,7 @@ const headers = desiredHeaders.filter(h => h in data[0]);
   };
   td.textContent = convert[td.textContent] || td.textContent;
 }
+
 if (h === "강의실") {
   const original = td.textContent;
 
@@ -242,6 +243,14 @@ if (h === "강의실") {
   else if (/^융합교육관\((\d+)\)$/.test(original)) {
     td.textContent = "융" + original.match(/\d+/)[0];
   }
+
+  else if (/^(융합교육관\(\d+\),?)+$/.test(original)) {
+    td.textContent = original
+      .split(",")
+      .map(room => "융" + room.match(/\d+/)[0])
+      .join(",");
+  }
+}
 
     // "농산물가공·식품 실습교육동(가공101)" → "가공101"
   else if (/^농산물가공·식품 실습교육동\((가공\d+)\)$/.test(original)) {
