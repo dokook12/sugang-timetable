@@ -204,9 +204,11 @@
 );
     }
 function processCourseRow(row) {
-  const 강의실원본 = row["강의실"] || "";
-  const 강의실정제 = 강의실원본.length >= 15 ? "" : 강의실원본;
-  const 비고값 = 강의실원본.length >= 15 ? 강의실원본 : "";
+  const 원본 = row["강의실"] || "";
+  const 그대로두는패턴 = /^(창\d{3}|융\d{3}|첨\d{3}|융실\d{3})$/;
+  
+  const 강의실 = (!그대로두는패턴.test(원본) && 원본.length >= 15) ? "" : 원본;
+  const 비고 = (!그대로두는패턴.test(원본) && 원본.length >= 15) ? 원본 : "";
 
   return {
     과정: row["과정"],
@@ -218,12 +220,12 @@ function processCourseRow(row) {
     학년: row["학년"],
     개설학과: row["개설학과"],
     강의시간: row["강의시간"],
-    강의실: 강의실정제,
+    강의실: 강의실,
     담당교수: row["담당교수"],
     강의구분: row["강의구분"],
     제한인원: parseInt(row["제한인원"]),
     성적평가: row["성적평가"],
-    비고: 비고값
+    비고: 비고
   };
 }
 
