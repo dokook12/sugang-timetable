@@ -147,12 +147,12 @@
     let filteredData = [];
 
     fetch('data.json')
-      .then(res => res.json())
-      .then(json => {
-        data = json;
-        filteredData = data;
-        initFilters();
-      });
+  .then(res => res.json())
+  .then(json => {
+    data = json.map(processCourseRow);  // 여기서 가공 처리!
+    filteredData = data;
+    initFilters();
+  });
 
     function initFilters() {
       const deptSet = new Set();
@@ -203,11 +203,30 @@
   (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
 );
     }
-
+function processCourseRow(row) {
+  return {
+    과정: row["과정"],
+    과목코드: row["과목코드"],
+    이수구분: row["이수구분"],
+    개설과목: row["개설과목"],
+    학점: parseInt(row["학점"]),
+    시수: parseInt(row["시수"]),
+    학년: row["학년"],
+    개설학과: row["개설학과"],
+    강의시간: row["강의시간"],
+    강의실: row["강의실"],
+    담당교수: row["담당교수"],
+    강의구분: row["강의구분"],
+    제한인원: parseInt(row["제한인원"]),
+    성적평가: row["성적평가"]
+  };
+}
     function updateTable() {
 const desiredHeaders = [
-  "과정", "과목코드", "주야", "개설학과", "학년", "개설과목", "분반", "이수구분",
-  "학점", "시수", "강의시간", "강의실", "담당교수", "강의구분", "제한인원", "성적평가"
+  "과정", "과목코드", "이수구분", "개설과목",
+  "학점", "시수", "학년", "개설학과",
+  "강의시간", "강의실", "담당교수",
+  "강의구분", "제한인원", "성적평가"
 ];
 
 const headers = desiredHeaders.filter(h => h in data[0]);
