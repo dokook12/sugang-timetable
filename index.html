@@ -256,7 +256,9 @@ if (h === "강의실") {
   else if (/^첨단기술교육실습교육동\((첨단실습동\d+)\)$/.test(original)) {
     td.textContent = original.match(/\((첨단실습동\d+)\)/)[1];
   }
-
+else if (/^수산양식학과 실습교육동\((수\d+)\)$/.test(original)) {
+    td.textContent = original.match(/\((수\d+)\)/)[1];
+  }
   // "첨단기술교육관(첨단교육관102)" → "첨단교육관102"
   else if (/^첨단기술교육관\((첨단교육관\d+)\)$/.test(original)) {
     td.textContent = original.match(/\((첨단교육관\d+)\)/)[1];
