@@ -109,12 +109,35 @@ h2 {
 #filter-button:hover {
   background-color: #2e4f8c;
 }
+
+    .outer-wrapper {
+  height: 870px;
+  margin: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.filters {
+  flex-shrink: 0; /* 기존 filters에 덮어쓰이게만 추가됨 */
+  border-bottom: 1px solid #ccc; /* 기존 margin 대신 경계선으로 */
+}
+
+.table-wrapper {
+  flex-grow: 1; /* 고정 높이 대신 확장되도록 추가됨 */
+  overflow-y: auto; /* 내부 스크롤 추가 */
+} 
+    
   </style>
 </head>
 <body>
 
   <h2> | 국립한국농수산대학교 종합 강의시간표 조회</h2>
 
+  <div class="outer-wrapper">
+    
   <div class="filters">
   <label>개설학과:
     <select id="filter-department">
