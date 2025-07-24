@@ -126,6 +126,41 @@
     tr.highlight {
       background-color: #e0ecff;
     }
+
+.table-wrapper {
+    overflow-y: auto;
+    max-height: 600px;
+    margin: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    background: white;
+  }
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    table-layout: auto;
+  }
+
+  thead th {
+    position: sticky;
+    top: 0;
+    background-color: #e5e5e5;
+    border-top: 2px solid #1e3966;
+    z-index: 2;
+  }
+
+  th, td {
+    border: 1px solid #ccc;
+    padding: 8px 12px;
+    box-sizing: border-box;
+    text-align: left;
+  }
+
+  tr.highlight {
+    background-color: #e0ecff;
+  }
+    
   </style>
 </head>
 <body>
