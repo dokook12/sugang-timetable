@@ -1,53 +1,39 @@
-대현 416 직통
-
-
 <!DOCTYPE html>
 <html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <title> | 국립한국농수산대학교 종합 강의시간표 조회</title>
   <style>
-  * {
-  box-sizing: border-box;
-}
+    * {
+      box-sizing: border-box;
+    }
     body {
-  font-family: 'Segoe UI', sans-serif;
-  margin: 0; 
-  color: #000;
-  background-color: #fff;
-}
-    
-h2 {
-  background-color: #1e3966;
-  color: white;
-  padding: 25px 30px;      
-  padding-left: 40px;      
-  margin: 0;
-  border-radius: 0;
-  font-size: 24px;
-  width: 100vw;            
-  box-sizing: border-box;  
-}
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0; 
+      color: #000;
+      background-color: #fff;
+    }
+    h2 {
+      background-color: #1e3966;
+      color: white;
+      padding: 25px 30px;
+      padding-left: 40px;
+      margin: 0;
+      font-size: 24px;
+      width: 100vw;
+      box-sizing: border-box;
+    }
     label, select, button {
       font-size: 14px;
       margin-right: 10px;
     }
-    select, button {
+    select, button, input[type="text"] {
       padding: 5px;
       border: 1px solid #ccc;
       background-color: #f5f5f5;
       border-radius: 4px;
       color: #000;
     }
-    
-    input[type="text"] {
-  padding: 5px;
-  border: 1px solid #ccc;
-  background-color: #f5f5f5;
-  border-radius: 4px;
-  color: #000;
-}
-
     button {
       cursor: pointer;
     }
@@ -60,98 +46,104 @@ h2 {
       background-color: #f5f5f5;
       border-radius: 6px;
       margin: 20px;
-}
-    
-.table-wrapper {
-  border: 1px solid #ccc;
-  padding: 15px;
-  margin: 20px;
-  background-color: #fff;
-  border-radius: 6px;
+    }
 
-  height: 870px;          
-  overflow-y: auto;        
-}
-    
+    .table-wrapper {
+      border: 1px solid #ccc;
+      padding: 0;
+      margin: 20px;
+      background-color: #fff;
+      border-radius: 6px;
+      height: 870px;
+      overflow-y: auto;
+    }
+
     .init-message {
       font-size: 16px;
       text-align: center;
       color: #777;
       padding: 50px 0;
     }
+
     table {
       border-collapse: collapse;
       width: 100%;
-      margin-top: 10px;
       font-size: 13px;
       color: #000;
     }
-    th, td {
-  border: 1px solid #ccc;
-  padding: 8px 12px; 
-  box-sizing: border-box;
-}
-    tr.highlight {
-  background-color: #e0ecff;
-}
+
     thead th {
+      position: sticky;
+      top: 0;
+      z-index: 5;
       background-color: #e5e5e5;
       border-top: 2px solid #1e3966;
+      border-bottom: 1px solid #ccc;
+      padding: 8px 12px;
     }
-    #filter-button {
-  background-color: #1e3966;
-  color: #ffffff;
-  border: none;
-  padding: 8px 16px;
-  font-weight: bold;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.2s ease-in-out;
-}
 
-#filter-button:hover {
-  background-color: #2e4f8c;
-}
+    th, td {
+      border: 1px solid #ccc;
+      padding: 8px 12px;
+      box-sizing: border-box;
+      word-break: break-word;
+      white-space: normal;
+    }
+
+    tr.highlight {
+      background-color: #e0ecff;
+    }
+
+    #filter-button {
+      background-color: #1e3966;
+      color: #ffffff;
+      border: none;
+      padding: 8px 16px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s ease-in-out;
+    }
+
+    #filter-button:hover {
+      background-color: #2e4f8c;
+    }
   </style>
 </head>
 <body>
-
   <h2> | 국립한국농수산대학교 종합 강의시간표 조회</h2>
 
   <div class="filters">
-  <label>개설학과:
-    <select id="filter-department">
-      <option value="">전체</option>
-    </select>
-  </label>
-  <label>학년:
-    <select id="filter-grade">
-      <option value="">전체</option>
-    </select>
-  </label>
-  <label>이수구분:
-    <select id="filter-requirement">
-      <option value="">전체</option>
-    </select>
-  </label>
-  <label>강의구분:
-    <select id="filter-lecture-type">
-      <option value="">전체</option>
-    </select>
-  </label>
-
-  <label>강의명:
-    <input type="text" id="filter-title" placeholder="예: 축산학개론">
-  </label>
-
-  <button id="filter-button">조회</button>
-</div>
+    <label>개설학과:
+      <select id="filter-department">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>학년:
+      <select id="filter-grade">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>이수구분:
+      <select id="filter-requirement">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>강의구분:
+      <select id="filter-lecture-type">
+        <option value="">전체</option>
+      </select>
+    </label>
+    <label>강의명:
+      <input type="text" id="filter-title" placeholder="예: 축산학개론">
+    </label>
+    <button id="filter-button">조회</button>
+  </div>
 
   <div class="table-wrapper" id="table-container">
     <div class="init-message" id="init-message">
       검색 조건 선택 후 조회 버튼을 클릭하세요.
     </div>
-
     <table id="course-table" style="display: none;">
       <thead>
         <tr id="table-header"></tr>
@@ -165,12 +157,12 @@ h2 {
     let filteredData = [];
 
     fetch('data.json')
-  .then(res => res.json())
-  .then(json => {
-    data = json.map(processCourseRow).filter(Boolean); 
-    filteredData = data;
-    initFilters();
-  });
+      .then(res => res.json())
+      .then(json => {
+        data = json.map(processCourseRow).filter(Boolean);
+        filteredData = data;
+        initFilters();
+      });
 
     function initFilters() {
       const deptSet = new Set();
@@ -214,52 +206,52 @@ h2 {
       const title = document.getElementById("filter-title").value.toLowerCase();
 
       filteredData = data.filter(row =>
-  (!dept || row["개설학과"] === dept) &&
-  (!grade || row["학년"] === grade) &&
-  (!req || row["이수구분"] === req) &&
-  (!type || row["강의구분"] === type) &&
-  (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
-);
+        (!dept || row["개설학과"] === dept) &&
+        (!grade || row["학년"] === grade) &&
+        (!req || row["이수구분"] === req) &&
+        (!type || row["강의구분"] === type) &&
+        (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
+      );
     }
-function processCourseRow(row) {
-  if (!row || typeof row !== "object") return null; 
 
-  let 강의실 = row["강의실"] || "";
-  let 비고 = "";
+    function processCourseRow(row) {
+      if (!row || typeof row !== "object") return null;
+      let 강의실 = row["강의실"] || "";
+      let 비고 = "";
 
-  if (강의실 === "여름방학 농기계현장실습 수료자만 신청가능") {
-    비고 = 강의실;
-    강의실 = "";
-  }
+      if (강의실 === "여름방학 농기계현장실습 수료자만 신청가능") {
+        비고 = 강의실;
+        강의실 = "";
+      }
 
-  return {
-    과정: row["과정"] || "",
-    과목코드: row["과목코드"] || "",
-    이수구분: row["이수구분"] || "",
-    개설과목: row["개설과목"] || "",
-    학점: parseInt(row["학점"]) || 0,
-    시수: parseInt(row["시수"]) || 0,
-    학년: row["학년"] || "",
-    개설학과: row["개설학과"] || "",
-    강의시간: row["강의시간"] || "",
-    강의실: 강의실,
-    담당교수: row["담당교수"] || "",
-    강의구분: row["강의구분"] || "",
-    제한인원: parseInt(row["제한인원"]) || 0,
-    성적평가: row["성적평가"] || "",
-    비고: 비고
-  };
-}
+      return {
+        과정: row["과정"] || "",
+        과목코드: row["과목코드"] || "",
+        이수구분: row["이수구분"] || "",
+        개설과목: row["개설과목"] || "",
+        학점: parseInt(row["학점"]) || 0,
+        시수: parseInt(row["시수"]) || 0,
+        학년: row["학년"] || "",
+        개설학과: row["개설학과"] || "",
+        강의시간: row["강의시간"] || "",
+        강의실: 강의실,
+        담당교수: row["담당교수"] || "",
+        강의구분: row["강의구분"] || "",
+        제한인원: parseInt(row["제한인원"]) || 0,
+        성적평가: row["성적평가"] || "",
+        비고: 비고
+      };
+    }
 
     function updateTable() {
-const desiredHeaders = [
-  "과정", "과목코드", "이수구분", "개설과목",
-  "학점", "시수", "학년", "개설학과",
-  "강의시간", "강의실", "담당교수",
-  "강의구분", "제한인원", "성적평가", "비고"  // ← 요기
-];
+      const desiredHeaders = [
+        "과정", "과목코드", "이수구분", "개설과목",
+        "학점", "시수", "학년", "개설학과",
+        "강의시간", "강의실", "담당교수",
+        "강의구분", "제한인원", "성적평가", "비고"
+      ];
 
-const headers = desiredHeaders.filter(h => h in data[0]);
+      const headers = desiredHeaders.filter(h => h in data[0]);
       const headerRow = document.getElementById("table-header");
       headerRow.innerHTML = "";
       headers.forEach(h => {
@@ -275,84 +267,62 @@ const headers = desiredHeaders.filter(h => h in data[0]);
         headers.forEach(h => {
           const td = document.createElement("td");
           td.textContent = row[h] || "";
-          
+
           if (h === "개설과목") {
-  const removeTags = ["인문사회", "기술융합", "창업경영"];
-  const match = td.textContent.match(/^\((.*?)\)\s*/);
-  if (match && removeTags.includes(match[1])) {
-    td.textContent = td.textContent.replace(/^\(.*?\)\s*/, "");
-  }
-  
-}if (h === "이수구분") {
-  const convert = {
-    "교양선택": "교선",
-    "교양필수": "교필",
-    "학부필수": "학필",
-    "전공선택": "전선",
-    "전공필수": "전필"
-  };
-  td.textContent = convert[td.textContent] || td.textContent;
-}
+            const removeTags = ["인문사회", "기술융합", "창업경영"];
+            const match = td.textContent.match(/^\((.*?)\)\s*/);
+            if (match && removeTags.includes(match[1])) {
+              td.textContent = td.textContent.replace(/^\(.*?\)\s*/, "");
+            }
+          }
 
-if (h === "강의실") {
-  const original = td.textContent;
+          if (h === "이수구분") {
+            const convert = {
+              "교양선택": "교선",
+              "교양필수": "교필",
+              "학부필수": "학필",
+              "전공선택": "전선",
+              "전공필수": "전필"
+            };
+            td.textContent = convert[td.textContent] || td.textContent;
+          }
 
-  // "창의교육관(창206)" → "창206"
-  if (/^창의교육관\((창\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((창\d+)\)/)[1];
-  }
-
-  // "융합교육관(403)" → "융403"
-  else if (/^융합교육관\((\d+)\)$/.test(original)) {
-    td.textContent = "융" + original.match(/\d+/)[0];
-  }
-
-  else if (/^(융합교육관\(\d+\),?)+$/.test(original)) {
-    td.textContent = original
-      .split(",")
-      .map(room => "융" + room.match(/\d+/)[0])
-      .join(",");
-  }
-
-    // "농산물가공·식품 실습교육동(가공101)" → "가공101"
-  else if (/^농산물가공·식품 실습교육동\((가공\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((가공\d+)\)/)[1];
-  }
-  
-  else if (/\(가공\d+\)/.test(original)) {
-  td.textContent = original.match(/\(가공\d+\)/)[0].slice(1, -1);
-}
-
-  // "첨단기술교육실습교육동(첨단실습동105)" → "첨단실습동105"
-  else if (/^첨단기술교육실습교육동\((첨단실습동\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((첨단실습동\d+)\)/)[1];
-  }
-else if (/^수산양식학과 실습교육동\((수\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((수\d+)\)/)[1];
-  }
-  // "첨단기술교육관(첨단교육관102)" → "첨단교육관102"
-  else if (/^첨단기술교육관\((첨단교육관\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((첨단교육관\d+)\)/)[1];
-  }
-
-  // "융복합 실습교육동(융실201)" → "융실201"
-  else if (/^융복합 실습교육동\((융실\d+)\)$/.test(original)) {
-    td.textContent = original.match(/\((융실\d+)\)/)[1];
-  }
-
-  // "기후변화대응실습교육센터(기후변화센터관 강의실)" → "기후변화센터관 강의실"
-  else if (/^기후변화대응실습교육센터\(기후변화센터 강의실\)$/.test(original)) {
-    td.textContent = "기후변화센터 강의실";
-  }
-}
+          if (h === "강의실") {
+            const original = td.textContent;
+            if (/^창의교육관\((창\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((창\d+)\)/)[1];
+            } else if (/^융합교육관\((\d+)\)$/.test(original)) {
+              td.textContent = "융" + original.match(/\d+/)[0];
+            } else if (/^(융합교육관\(\d+\),?)+$/.test(original)) {
+              td.textContent = original
+                .split(",")
+                .map(room => "융" + room.match(/\d+/)[0])
+                .join(",");
+            } else if (/^농산물가공·식품 실습교육동\((가공\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((가공\d+)\)/)[1];
+            } else if (/\(가공\d+\)/.test(original)) {
+              td.textContent = original.match(/\(가공\d+\)/)[0].slice(1, -1);
+            } else if (/^첨단기술교육실습교육동\((첨단실습동\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((첨단실습동\d+)\)/)[1];
+            } else if (/^수산양식학과 실습교육동\((수\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((수\d+)\)/)[1];
+            } else if (/^첨단기술교육관\((첨단교육관\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((첨단교육관\d+)\)/)[1];
+            } else if (/^융복합 실습교육동\((융실\d+)\)$/.test(original)) {
+              td.textContent = original.match(/\((융실\d+)\)/)[1];
+            } else if (/^기후변화대응실습교육센터\(기후변화센터 강의실\)$/.test(original)) {
+              td.textContent = "기후변화센터 강의실";
+            }
+          }
 
           tr.appendChild(td);
         });
-        
+
         tr.addEventListener("click", () => {
-  document.querySelectorAll("tbody tr").forEach(row => row.classList.remove("highlight"));
-  tr.classList.add("highlight");
-});
+          document.querySelectorAll("tbody tr").forEach(row => row.classList.remove("highlight"));
+          tr.classList.add("highlight");
+        });
+
         body.appendChild(tr);
       });
 
