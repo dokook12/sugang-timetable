@@ -120,6 +120,11 @@
         <option value="">전체</option>
       </select>
     </label>
+    <label>이수구분:
+  <select id="filter-category">
+    <option value="">전체</option>
+  </select>
+</label>
     <label>강의명:
       <input type="text" id="filter-title" placeholder="예: 축산학개론">
     </label>
@@ -153,14 +158,17 @@
     function initFilters() {
       const deptSet = new Set();
       const gradeSet = new Set();
+      const categorySet = new Set();
 
       data.forEach(row => {
         deptSet.add(row["개설학과"]);
         gradeSet.add(row["학년"]);
+        categorySet.add(row["이수구분"]);
       });
 
       populateSelect("filter-department", deptSet);
       populateSelect("filter-grade", gradeSet);
+      populateSelect("filter-category", categorySet);
 
       document.getElementById("filter-button").addEventListener("click", () => {
         applyFilters();
@@ -182,11 +190,13 @@
       const dept = document.getElementById("filter-department").value;
       const grade = document.getElementById("filter-grade").value;
       const title = document.getElementById("filter-title").value.toLowerCase();
+      const category = document.getElementById("filter-category").value;
 
       filteredData = data.filter(row =>
         (!dept || row["개설학과"] === dept) &&
         (!grade || row["학년"] === grade) &&
         (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
+        (!category || row["이수구분"] === category)
       );
     }
 
