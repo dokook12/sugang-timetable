@@ -4,9 +4,7 @@
   <meta charset="UTF-8" />
   <title> | 국립한국농수산대학교 종합 강의시간표 조회</title>
   <style>
-    * {
-      box-sizing: border-box;
-    }
+    * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -33,9 +31,7 @@
       border-radius: 4px;
       color: #000;
     }
-    button {
-      cursor: pointer;
-    }
+    button { cursor: pointer; }
     .filters {
       display: flex;
       flex-wrap: wrap;
@@ -46,7 +42,6 @@
       border-radius: 6px;
       margin: 20px;
     }
-
     .table-wrapper {
       position: relative;
       border: 1px solid #ccc;
@@ -57,7 +52,6 @@
       height: 870px;
       overflow-y: auto;
     }
-
     .table-wrapper::before {
       content: "";
       display: block;
@@ -67,21 +61,18 @@
       top: 0;
       z-index: 10;
     }
-
     .init-message {
       font-size: 16px;
       text-align: center;
       color: #777;
       padding: 50px 0;
     }
-
     table {
       border-collapse: collapse;
       width: 100%;
       font-size: 13px;
       color: #000;
     }
-
     thead th {
       position: sticky;
       top: 0;
@@ -90,7 +81,6 @@
       border-bottom: 1px solid #ccc;
       padding: 8px 12px;
     }
-
     th, td {
       border: 1px solid #ccc;
       padding: 8px 12px;
@@ -98,11 +88,9 @@
       word-break: break-word;
       white-space: normal;
     }
-
     tr.highlight {
       background-color: #e0ecff;
     }
-    
     #filter-button {
       background-color: #1e3966;
       color: #ffffff;
@@ -113,7 +101,6 @@
       cursor: pointer;
       transition: background-color 0.2s ease-in-out;
     }
-
     #filter-button:hover {
       background-color: #2e4f8c;
     }
@@ -130,16 +117,6 @@
     </label>
     <label>학년:
       <select id="filter-grade">
-        <option value="">전체</option>
-      </select>
-    </label>
-    <label>이수구분:
-      <select id="filter-requirement">
-        <option value="">전체</option>
-      </select>
-    </label>
-    <label>강의구분:
-      <select id="filter-lecture-type">
         <option value="">전체</option>
       </select>
     </label>
@@ -176,20 +153,14 @@
     function initFilters() {
       const deptSet = new Set();
       const gradeSet = new Set();
-      const reqSet = new Set();
-      const typeSet = new Set();
 
       data.forEach(row => {
         deptSet.add(row["개설학과"]);
         gradeSet.add(row["학년"]);
-        reqSet.add(row["이수구분"]);
-        typeSet.add(row["강의구분"]);
       });
 
       populateSelect("filter-department", deptSet);
       populateSelect("filter-grade", gradeSet);
-      populateSelect("filter-requirement", reqSet);
-      populateSelect("filter-lecture-type", typeSet);
 
       document.getElementById("filter-button").addEventListener("click", () => {
         applyFilters();
@@ -210,15 +181,11 @@
     function applyFilters() {
       const dept = document.getElementById("filter-department").value;
       const grade = document.getElementById("filter-grade").value;
-      const req = document.getElementById("filter-requirement").value;
-      const type = document.getElementById("filter-lecture-type").value;
       const title = document.getElementById("filter-title").value.toLowerCase();
 
       filteredData = data.filter(row =>
         (!dept || row["개설학과"] === dept) &&
         (!grade || row["학년"] === grade) &&
-        (!req || row["이수구분"] === req) &&
-        (!type || row["강의구분"] === type) &&
         (!title || (row["개설과목"] && row["개설과목"].toLowerCase().includes(title)))
       );
     }
